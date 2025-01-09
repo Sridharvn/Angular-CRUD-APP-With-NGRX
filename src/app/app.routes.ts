@@ -3,7 +3,7 @@ import { EmployeeComponent } from './components/employee/employee.component';
 
 export const routes: Routes = [
   {
-    path: '/employee',
+    path: 'employee',
     component: EmployeeComponent,
   },
 ];
