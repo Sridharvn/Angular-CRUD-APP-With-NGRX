@@ -1,9 +1,9 @@
-<mat-card>
-  <mat-card-header>
-    <h1>{{title}}</h1>
-  </mat-card-header>
-  <mat-card-content>
-    <form [formGroup]="empForm" (ngSubmit)="saveEmployee()">
+<form [formGroup]="empForm" (ngSubmit)="saveEmployee()">
+  <mat-card>
+    <mat-card-header>
+      <h1>{{title}}</h1>
+    </mat-card-header>
+    <mat-card-content>
       <mat-form-field>
         <mat-label>Employee Id </mat-label>
         <input matInput formControlName="id"></mat-form-field>
@@ -20,6 +20,7 @@
       <mat-form-field>
         <mat-label>Role</mat-label>
         <mat-select formControlName="role">
+          <mat-option value="" selected hidden>Please select a role </mat-option>
           <mat-option value="Developer">Developer</mat-option>
           <mat-option value="Manager">Manager</mat-option>
           <mat-option value="Tester">Tester</mat-option>
@@ -30,8 +31,12 @@
         <mat-label>Salary</mat-label>
         <input matInput formControlName="salary" type="number">
       </mat-form-field>
-      <button mat-raised-button color="primary" type="submit">Save</button>
 
-    </form>
-  </mat-card-content>
-</mat-card>
+    </mat-card-content>
+    <mat-card-actions>
+
+      <button mat-raised-button color="primary" type="submit">Save</button>
+      <a mat-raised-button color="accent">Close</a>
+    </mat-card-actions>
+  </mat-card>
+</form>
