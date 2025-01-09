@@ -1,11 +1,7 @@
 import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import {
-  MatDialog,
-  matDialogAnimations,
-  MatDialogModule,
-} from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AddEmployeeComponent } from '../add-employee/add-employee.component';
 
 @Component({
