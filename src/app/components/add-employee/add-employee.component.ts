@@ -1,7 +1,11 @@
 import { MatButtonModule } from '@angular/material/button';
-import { Component, OnDestroy } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import {
   FormControl,
   FormGroup,
@@ -36,16 +40,18 @@ import { Subscription } from 'rxjs';
   templateUrl: './add-employee.component.html',
   styleUrl: './add-employee.component.scss',
 })
-export class AddEmployeeComponent implements OnDestroy {
+export class AddEmployeeComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
 
   constructor(
     private employeeService: EmployeeService,
     private ref: MatDialogRef<AddEmployeeComponent>,
-    private toaster: ToastrService
+    private toaster: ToastrService,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
   title = 'Add Employee';
+  dialogData: any;
   empForm = new FormGroup({
     id: new FormControl(0),
     name: new FormControl('', Validators.required),
@@ -53,6 +59,16 @@ export class AddEmployeeComponent implements OnDestroy {
     role: new FormControl('', Validators.required),
     salary: new FormControl(0, Validators.required),
   });
+
+  ngOnInit() {
+    this.dialogData = this.data;
+    if (this.data > 0) {
+      this.title = 'Edit Employee';
+      this.employeeService
+        .getEmployeeById(this.dialogData.code)
+        .subscribe((response) => {});
+    }
+  }
 
   saveEmployee() {
     if (this.empForm.valid) {
