@@ -1,3 +1,11 @@
 {
-  "employee": []
+  "employee": [
+    {
+      "id": "43",
+      "name": "Excalibur",
+      "doj": "2024-02-18T18:30:00.000Z",
+      "role": "Developer",
+      "salary": 600000
+    }
+  ]
 }
