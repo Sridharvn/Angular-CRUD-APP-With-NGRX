@@ -49,4 +49,12 @@ export class EmployeeComponent implements OnInit, OnDestroy {
       .afterClosed()
       .subscribe(() => this.getAllEmployees());
   }
+  editEmployee(id: number) {}
+  deleteEmployee(id: number) {
+    if (confirm('Are you sure?')) {
+      this.service.deleteEmployee(id).subscribe((response) => {
+        this.getAllEmployees();
+      });
+    }
+  }
 }

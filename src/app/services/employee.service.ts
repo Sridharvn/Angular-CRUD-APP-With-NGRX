@@ -6,7 +6,7 @@ import { Employee } from '../models/employee';
   providedIn: 'root',
 })
 export class EmployeeService {
-  api = 'http://localhost:3000/employee ';
+  api = 'http://localhost:3000/employee';
   constructor(private http: HttpClient) {}
 
   getEmployees() {
@@ -26,6 +26,7 @@ export class EmployeeService {
   }
 
   deleteEmployee(id: number) {
+    debugger;
     return this.http.delete<void>(`${this.api}/${id}`);
   }
 }
