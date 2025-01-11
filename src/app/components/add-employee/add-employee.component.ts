@@ -62,11 +62,21 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.dialogData = this.data;
-    if (this.data > 0) {
+    if (this.data.code > 0) {
       this.title = 'Edit Employee';
       this.employeeService
         .getEmployeeById(this.dialogData.code)
-        .subscribe((response) => {});
+        .subscribe((response) => {
+          if (response != null) {
+            this.empForm.setValue({
+              id: response.id,
+              name: response.name,
+              doj: new Date(response.doj),
+              role: response.role,
+              salary: response.salary,
+            });
+          }
+        });
     }
   }
 

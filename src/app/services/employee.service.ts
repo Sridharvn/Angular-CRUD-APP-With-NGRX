@@ -26,7 +26,6 @@ export class EmployeeService {
   }
 
   deleteEmployee(id: number) {
-    debugger;
     return this.http.delete<void>(`${this.api}/${id}`);
   }
 }
