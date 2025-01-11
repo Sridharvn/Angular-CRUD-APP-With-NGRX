@@ -1,5 +1,5 @@
 import { MatButtonModule } from '@angular/material/button';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import {
@@ -17,6 +17,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { Employee } from '../../models/employee';
 import { EmployeeService } from '../../services/employee.service';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-add-employee',
@@ -35,12 +36,15 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './add-employee.component.html',
   styleUrl: './add-employee.component.scss',
 })
-export class AddEmployeeComponent {
+export class AddEmployeeComponent implements OnDestroy {
+  private subscription: Subscription = new Subscription();
+
   constructor(
     private employeeService: EmployeeService,
     private ref: MatDialogRef<AddEmployeeComponent>,
     private toaster: ToastrService
   ) {}
+
   title = 'Add Employee';
   empForm = new FormGroup({
     id: new FormControl(0),
@@ -49,6 +53,7 @@ export class AddEmployeeComponent {
     role: new FormControl('', Validators.required),
     salary: new FormControl(0, Validators.required),
   });
+
   saveEmployee() {
     if (this.empForm.valid) {
       let _data: Employee = {
@@ -58,14 +63,21 @@ export class AddEmployeeComponent {
         role: this.empForm.get('role')?.value ?? '',
         salary: this.empForm.get('salary')?.value ?? 0,
       };
-      this.employeeService.addEmployee(_data).subscribe(() => {
-        // alert('saved');
-        this.toaster.success('Added User', 'Created');
-        this.closePopup();
-      });
+      let sub = this.subscription.add(
+        this.employeeService.addEmployee(_data).subscribe(() => {
+          this.toaster.success('Added User', 'Created');
+          this.closePopup();
+        })
+      );
+      this.subscription.add(sub);
     }
   }
+
   closePopup() {
     this.ref.close();
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
