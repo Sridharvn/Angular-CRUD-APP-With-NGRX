@@ -57,7 +57,7 @@ export class AddEmployeeComponent {
         salary: this.empForm.get('salary')?.value ?? 0,
       };
       this.employeeService.addEmployee(_data).subscribe(() => {
-        alert('saved');
+        // alert('saved');
         this.closePopup();
       });
     }

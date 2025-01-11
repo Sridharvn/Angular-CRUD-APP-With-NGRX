@@ -40,10 +40,13 @@ export class EmployeeComponent implements OnInit, OnDestroy {
   }
 
   addEmployee() {
-    this.dialog.open(AddEmployeeComponent, {
-      width: '50%',
-      enterAnimationDuration: '1000ms',
-      exitAnimationDuration: '1000ms',
-    });
+    this.dialog
+      .open(AddEmployeeComponent, {
+        width: '50%',
+        enterAnimationDuration: '1000ms',
+        exitAnimationDuration: '1000ms',
+      })
+      .afterClosed()
+      .subscribe(() => this.getAllEmployees());
   }
 }
