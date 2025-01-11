@@ -51,6 +51,7 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
   ) {}
 
   title = 'Add Employee';
+  isEdit: boolean = false;
   dialogData: any;
   empForm = new FormGroup({
     id: new FormControl(0),
@@ -63,6 +64,7 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.dialogData = this.data;
     if (this.data.code > 0) {
+      this.isEdit = true;
       this.title = 'Edit Employee';
       this.employeeService
         .getEmployeeById(this.dialogData.code)
@@ -89,13 +91,23 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
         role: this.empForm.get('role')?.value ?? '',
         salary: this.empForm.get('salary')?.value ?? 0,
       };
-      let sub = this.subscription.add(
-        this.employeeService.addEmployee(_data).subscribe(() => {
-          this.toaster.success('Added User', 'Created');
-          this.closePopup();
-        })
-      );
-      this.subscription.add(sub);
+      if (this.isEdit) {
+        let sub = this.employeeService
+          .updateEmployee(_data.id, _data)
+          .subscribe(() => {
+            this.toaster.success('Updated User', 'Updated');
+            this.closePopup();
+          });
+        this.subscription.add(sub);
+      } else {
+        let sub = this.subscription.add(
+          this.employeeService.addEmployee(_data).subscribe(() => {
+            this.toaster.success('Added User', 'Created');
+            this.closePopup();
+          })
+        );
+        this.subscription.add(sub);
+      }
     }
   }
 
