@@ -16,6 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { Employee } from '../../models/employee';
 import { EmployeeService } from '../../services/employee.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-employee',
@@ -37,7 +38,8 @@ import { EmployeeService } from '../../services/employee.service';
 export class AddEmployeeComponent {
   constructor(
     private employeeService: EmployeeService,
-    private ref: MatDialogRef<AddEmployeeComponent>
+    private ref: MatDialogRef<AddEmployeeComponent>,
+    private toaster: ToastrService
   ) {}
   title = 'Add Employee';
   empForm = new FormGroup({
@@ -58,6 +60,7 @@ export class AddEmployeeComponent {
       };
       this.employeeService.addEmployee(_data).subscribe(() => {
         // alert('saved');
+        this.toaster.success('Added User', 'Created');
         this.closePopup();
       });
     }
