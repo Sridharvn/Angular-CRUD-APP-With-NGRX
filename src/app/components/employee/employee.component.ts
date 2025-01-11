@@ -21,12 +21,12 @@ import { Subscription } from 'rxjs';
 export class EmployeeComponent implements OnInit, OnDestroy {
   empList: Employee[] = [];
   dataTable!: MatTableDataSource<Employee>;
-  displayedColumn = ['id', 'name', 'doj', 'role', 'salary', 'action '];
+  displayedColumns = ['id', 'name', 'doj', 'role', 'salary', 'action'];
   subscriptions = new Subscription();
   constructor(private dialog: MatDialog, private service: EmployeeService) {}
 
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    this.getAllEmployees();
   }
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
@@ -34,6 +34,7 @@ export class EmployeeComponent implements OnInit, OnDestroy {
   getAllEmployees() {
     let sub = this.service.getEmployees().subscribe((response) => {
       this.empList = response;
+      this.dataTable = new MatTableDataSource(this.empList);
     });
     this.subscriptions.add(sub);
   }
