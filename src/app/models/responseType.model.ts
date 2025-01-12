@@ -1,0 +1,1 @@
+type responseType = 'pass' | 'fail';

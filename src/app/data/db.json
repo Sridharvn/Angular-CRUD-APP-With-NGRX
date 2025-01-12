@@ -8,20 +8,6 @@
       "salary": 600000
     },
     {
-      "id": "12",
-      "name": "ABCD",
-      "doj": "2025-01-11T06:40:47.588Z",
-      "role": "Manager",
-      "salary": 5555
-    },
-    {
-      "id": "1234",
-      "name": "abcdefghijklmnopqrstuvwxyz",
-      "doj": "2025-01-26T18:30:00.000Z",
-      "role": "Designer",
-      "salary": 12313123
-    },
-    {
       "id": "143",
       "name": "S4v3n",
       "doj": "2024-02-18T18:30:00.000Z",
