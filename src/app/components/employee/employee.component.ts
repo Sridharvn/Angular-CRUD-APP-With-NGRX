@@ -11,6 +11,9 @@ import {
 } from '@angular/material/table';
 import { EmployeeService } from '../../services/employee.service';
 import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { loadEmployee } from '../../Store/employee.action';
+import { getEmpList } from '../../Store/employee.selector';
 
 @Component({
   standalone: true,
@@ -23,7 +26,11 @@ export class EmployeeComponent implements OnInit, OnDestroy {
   dataTable!: MatTableDataSource<Employee>;
   displayedColumns = ['id', 'name', 'doj', 'role', 'salary', 'action'];
   subscriptions = new Subscription();
-  constructor(private dialog: MatDialog, private service: EmployeeService) {}
+  constructor(
+    private dialog: MatDialog,
+    private service: EmployeeService,
+    private store: Store
+  ) {}
 
   ngOnInit(): void {
     this.getAllEmployees();
@@ -32,22 +39,14 @@ export class EmployeeComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
   getAllEmployees() {
-    let sub = this.service.getEmployees().subscribe((response) => {
+    this.store.dispatch(loadEmployee());
+    this.store.select(getEmpList).subscribe((response) => {
       this.empList = response;
       this.dataTable = new MatTableDataSource(this.empList);
     });
-    this.subscriptions.add(sub);
   }
 
   addEmployee() {
-    // this.dialog
-    //   .open(AddEmployeeComponent, {
-    //     width: '50%',
-    //     enterAnimationDuration: '1000ms',
-    //     exitAnimationDuration: '1000ms',
-    //   })
-    //   .afterClosed()
-    //   .subscribe(() => this.getAllEmployees());
     this.openPopup(0);
   }
 
