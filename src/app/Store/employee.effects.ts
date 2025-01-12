@@ -2,12 +2,16 @@ import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EmployeeService } from '../services/employee.service';
 import {
+  addEmployee,
+  addEmployeeSuccess,
   deleteEmployee,
   deleteEmployeeSuccess,
   emptyAction,
   loadEmployee,
   loadEmployeeFailure,
   loadEmployeeSuccess,
+  updateEmployee,
+  updateEmployeeSuccess,
 } from './employee.action';
 import { catchError, exhaustMap, map, of, switchMap } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
@@ -49,10 +53,42 @@ export class empEffects {
       })
     )
   );
+  _addEmployee = createEffect(() =>
+    this.actions$.pipe(
+      ofType(addEmployee),
+      switchMap((action) => {
+        return this.service.addEmployee(action.data).pipe(
+          switchMap((data) => {
+            return of(
+              addEmployeeSuccess({ data: action.data }),
+              this.showAlert(`Added User Successfully`, 'pass')
+            );
+          }),
+          catchError((err) => of(this.showAlert(err.message, 'fail')))
+        );
+      })
+    )
+  );
+  _updateEmployee = createEffect(() =>
+    this.actions$.pipe(
+      ofType(updateEmployee),
+      switchMap((action) => {
+        return this.service.updateEmployee(action.data.id, action.data).pipe(
+          switchMap((data) => {
+            return of(
+              updateEmployeeSuccess({ data: action.data }),
+              this.showAlert(`Added User Successfully`, 'pass')
+            );
+          }),
+          catchError((err) => of(this.showAlert(err.message, 'fail')))
+        );
+      })
+    )
+  );
 
   showAlert(message: string, response: responseType) {
     if (response == 'pass') {
-      this.toastr.success(message, 'Deleted');
+      this.toastr.success(message, 'Success');
     } else if (response == 'fail') {
       this.toastr.error(message, 'Failed');
     }

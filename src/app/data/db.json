@@ -22,11 +22,11 @@
       "salary": 12500
     },
     {
-      "id": "100",
-      "name": "jack",
-      "doj": "2025-01-12T14:58:06.332Z",
-      "role": "Tester",
-      "salary": 1234567890
+      "id": "123123123",
+      "name": "asdasd",
+      "doj": "2025-01-12T15:22:21.682Z",
+      "role": "Manager",
+      "salary": 0
     }
   ]
 }
