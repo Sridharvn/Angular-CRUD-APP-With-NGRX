@@ -13,6 +13,7 @@ import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { employeeReducer } from './Store/employee.reducer';
+import { empEffects } from './Store/employee.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,7 +23,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideToastr(),
     provideStore({ emp: employeeReducer }),
-    provideEffects(),
+    provideEffects([empEffects]),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
   ],
 };

@@ -6,4 +6,8 @@ export const routes: Routes = [
     path: 'employee',
     component: EmployeeComponent,
   },
+  {
+    path: '**',
+    redirectTo: 'employee',
+  },
 ];
