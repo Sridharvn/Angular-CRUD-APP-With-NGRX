@@ -5,6 +5,8 @@ export const LOAD_EMPLOYEE = '[employee] getall';
 export const LOAD_EMPLOYEE_SUCCESS = '[employee] getall success';
 export const LOAD_EMPLOYEE_FAILURE = '[employee] getall failure';
 
+export const GET_EMPLOYEE = '[employee] get employee ';
+
 export const DELETE_EMPLOYEE = '[employee] delete ';
 export const DELETE_EMPLOYEE_SUCCESS = '[employee] delete success';
 export const ADD_EMPLOYEE = '[employee] add ';
@@ -45,6 +47,10 @@ export const updateEmployee = createAction(
 export const updateEmployeeSuccess = createAction(
   UPDATE_EMPLOYEE_SUCCESS,
   props<{ data: Employee }>()
+);
+export const getEmployee = createAction(
+  GET_EMPLOYEE,
+  props<{ empId: number }>()
 );
 
 export const emptyAction = createAction('Empty Action');

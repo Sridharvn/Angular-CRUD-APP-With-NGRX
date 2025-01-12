@@ -23,7 +23,12 @@ import { EmployeeService } from '../../services/employee.service';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { updateEmployee, addEmployee } from '../../Store/employee.action';
+import { selectEmployee } from '../../Store/employee.selector';
+import {
+  updateEmployee,
+  addEmployee,
+  getEmployee,
+} from '../../Store/employee.action';
 
 @Component({
   selector: 'app-add-employee',
@@ -68,19 +73,18 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
     if (this.data.code > 0) {
       this.isEdit = true;
       this.title = 'Edit Employee';
-      // this.employeeService
-      //   .getEmployeeById(this.dialogData.code)
-      //   .subscribe((response) => {
-      //     if (response != null) {
-      //       this.empForm.setValue({
-      //         id: response.id,
-      //         name: response.name,
-      //         doj: new Date(response.doj),
-      //         role: response.role,
-      //         salary: response.salary,
-      //       });
-      //     }
-      //   });
+      this.store.dispatch(getEmployee({ empId: this.dialogData.code }));
+      this.store.select(selectEmployee).subscribe((response) => {
+        if (response != null) {
+          this.empForm.setValue({
+            id: response.id,
+            name: response.name,
+            doj: new Date(response.doj),
+            role: response.role,
+            salary: response.salary,
+          });
+        }
+      });
     }
   }
 
@@ -94,23 +98,9 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
         salary: this.empForm.get('salary')?.value ?? 0,
       };
       if (this.isEdit) {
-        //   let sub = this.employeeService
-        //     .updateEmployee(_data.id, _data)
-        //     .subscribe(() => {
-        //       this.toaster.success('Updated User', 'Updated');
-        // this.closePopup();
-        //     });
-        //   this.subscription.add(sub);
         this.store.dispatch(updateEmployee({ data: _data }));
         this.closePopup();
       } else {
-        // let sub = this.subscription.add(
-        //   this.employeeService.addEmployee(_data).subscribe(() => {
-        //     this.toaster.success('Added User', 'Created');
-        // this.closePopup();
-        //   })
-        // );
-        // this.subscription.add(sub);
         this.store.dispatch(addEmployee({ data: _data }));
         this.closePopup();
       }
