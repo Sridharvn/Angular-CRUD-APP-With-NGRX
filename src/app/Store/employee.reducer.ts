@@ -21,5 +21,5 @@ const _employeeReducer = createReducer(
 );
 
 export function employeeReducer(state: any, action: any) {
-  return employeeReducer(state, action);
+  return _employeeReducer(state, action);
 }
