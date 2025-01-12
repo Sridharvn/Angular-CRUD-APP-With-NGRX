@@ -1,1 +1,1 @@
-type responseType = 'pass' | 'fail';
+export type responseType = 'pass' | 'fail';
